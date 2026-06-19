@@ -1,0 +1,8 @@
+.venv/
+.dist/
+__pycache__/
+*.pyc
+keycloak-data/
+*.log
+.env
+node_modules/

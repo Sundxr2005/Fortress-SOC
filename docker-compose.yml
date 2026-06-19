@@ -1,0 +1,53 @@
+version: '3.8'
+
+networks:
+  sentrix-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.50.0/24
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin123
+    ports:
+      - "8080:8080"
+    networks:
+      sentrix-net:
+        ipv4_address: 192.168.50.50
+
+  protected-app:
+    build: ./iam-waf/protected-app
+    container_name: protected-app
+    ports:
+      - "5000:5000"
+    networks:
+      sentrix-net:
+        ipv4_address: 192.168.50.60
+    depends_on:
+      - keycloak
+
+  dvwa:
+    image: vulnerables/web-dvwa
+    container_name: dvwa
+    networks:
+      sentrix-net:
+        ipv4_address: 192.168.50.21
+
+  waf:
+    image: owasp/modsecurity-crs:nginx
+    container_name: waf
+    ports:
+      - "8888:80"
+    environment:
+      BACKEND: "http://192.168.50.21:80"
+    networks:
+      sentrix-net:
+        ipv4_address: 192.168.50.40
+    depends_on:
+      - dvwa
