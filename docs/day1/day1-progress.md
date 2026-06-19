@@ -32,3 +32,4 @@
 - Verify Suricata alerts appear in Wazuh
 - Build Wazuh → Shuffle integration script
 
+updated by jagan928032
