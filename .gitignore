@@ -6,3 +6,4 @@ keycloak-data/
 *.log
 .env
 node_modules/
+wazuh/config/wazuh_indexer_ssl_certs/
