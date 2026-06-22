@@ -43,11 +43,12 @@ services:
     image: owasp/modsecurity-crs:nginx
     container_name: waf
     ports:
-      - "8888:80"
+      - "80:80"
     environment:
-      BACKEND: "http://192.168.50.21:80"
+      - BACKEND=http://192.168.50.21:80
+      - MODSEC_RULE_ENGINE=On
+    depends_on:
+      - dvwa
     networks:
       sentrix-net:
         ipv4_address: 192.168.50.40
-    depends_on:
-      - dvwa

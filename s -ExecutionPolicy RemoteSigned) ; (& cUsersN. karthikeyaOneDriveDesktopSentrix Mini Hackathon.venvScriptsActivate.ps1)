@@ -1,0 +1,22 @@
+warning: in the working copy of 'docker-compose.yml', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/docker-compose.yml b/docker-compose.yml[m
+[1mindex 8fb17d8..a13d892 100644[m
+[1m--- a/docker-compose.yml[m
+[1m+++ b/docker-compose.yml[m
+[36m@@ -43,11 +43,12 @@[m [mservices:[m
+     image: owasp/modsecurity-crs:nginx[m
+     container_name: waf[m
+     ports:[m
+[31m-      - "8888:80"[m
+[32m+[m[32m      - "80:80"[m
+     environment:[m
+[31m-      BACKEND: "http://192.168.50.21:80"[m
+[32m+[m[32m      - BACKEND=http://192.168.50.21:80[m
+[32m+[m[32m      - MODSEC_RULE_ENGINE=On[m
+[32m+[m[32m    depends_on:[m
+[32m+[m[32m      - dvwa[m
+     networks:[m
+       sentrix-net:[m
+         ipv4_address: 192.168.50.40[m
+[31m-    depends_on:[m
+[31m-      - dvwa[m
