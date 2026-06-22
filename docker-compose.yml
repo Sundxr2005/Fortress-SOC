@@ -2,10 +2,7 @@ version: '3.8'
 
 networks:
   sentrix-net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 192.168.50.0/24
+    external: true
 
 services:
   keycloak:
@@ -52,3 +49,4 @@ services:
     networks:
       sentrix-net:
         ipv4_address: 192.168.50.40
+
