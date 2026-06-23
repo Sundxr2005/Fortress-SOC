@@ -6,9 +6,9 @@ app = Flask(__name__)
 app.secret_key = "sentrix-secret-key"
 
 KEYCLOAK_URL = "http://192.168.50.50:8080"
-REALM = "sentrix-soc"
+REALM = "Fortress-SOC"
 CLIENT_ID = "sentrix-app"
-CLIENT_SECRET = "PASTE_YOUR_SECRET_HERE"
+CLIENT_SECRET = "xInUHTc4clsnVNMbLSh1mWhteb1BVTF9"
 REDIRECT_URI = "http://localhost:5000/callback"
 
 @app.route("/")
