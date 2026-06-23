@@ -7,3 +7,4 @@ keycloak-data/
 .env
 node_modules/
 wazuh/config/wazuh_indexer_ssl_certs/
+!iam-waf/proof-screenshots/*.log
