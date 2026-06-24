@@ -136,11 +136,10 @@ Full decode notes and proof in `iam-waf/BROWNIE_POINT_2_COMPLETE.md`.
 - Shared network architecture connecting IAM/WAF stack to SIEM stack
 
 **Pending — blocked on external dependency:**
-- Wazuh Manager/Indexer/Dashboard (owned by Jagan, Member 1) is not yet confirmed running/reachable on the shared network (`192.168.50.10` / `.12`)
-- Once Jagan's Wazuh stack is up, the following remaining tasks will be completed:
-  1. Install Wazuh agent on the WAF/Keycloak host
-  2. Forward WAF audit logs (script pre-built: `iam-waf/forward-waf-logs.sh`) and Keycloak login/anomaly events into Wazuh
-  3. Confirm both appear in the Wazuh dashboard as distinct, identifiable sources (separate from Suricata)
-  4. Re-run the SQLMap and brute-force tests and confirm both are visible in the SIEM dashboard — the final cross-layer proof requirement
-
-All work in this document is independently verifiable via the proof logs and scripts committed to `iam-waf/` in this repository.
+- Wazuh agent enrollment (port 1515) succeeds, but registration fails with "Duplicate agent name"
+  for both attempted names (`waf-vm`, `waf-vm-2`) — stale entries exist on Jagan's manager from
+  earlier attempts, requiring cleanup on his side
+- Port 1514 (the ongoing log-data channel, separate from 1515 enrollment) confirmed unreachable —
+  this must also be opened before any log forwarding can begin
+- Awaiting Jagan to: (1) remove duplicate agent entries from Wazuh dashboard, (2) confirm port 1514
+  is open in his firewall/Docker port mapping
