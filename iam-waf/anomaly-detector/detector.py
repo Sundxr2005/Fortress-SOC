@@ -33,7 +33,7 @@ def get_admin_token():
 def fetch_login_events(token):
     headers = {"Authorization": f"Bearer {token}"}
     resp = requests.get(
-        f"{KEYCLOAK_URL}/admin/realms/{REALM}/events?type=LOGIN&max=50",
+        f"{KEYCLOAK_URL}/admin/realms/{REALM}/events?type=LOGIN&type=LOGIN_ERROR&max=50",
         headers=headers,
     )
     if resp.status_code == 200:
@@ -62,6 +62,15 @@ def analyze_event(event):
     event_dt = datetime.fromtimestamp(event_time, tz=timezone.utc)
 
     write_alert(f"Login event: user={username} at {event_dt.isoformat()}", "INFO")
+    
+    event_type = event.get("type", "")
+    if event_type == "LOGIN_ERROR":
+        error_reason = event.get("error", "unknown")
+        write_alert(
+            f"ANOMALY: Failed login attempt for user={username} — reason: {error_reason}",
+            "HIGH" if error_reason == "user_temporarily_disabled" else "MEDIUM",
+        )
+        return
 
     if OFFHOURS_START_HOUR <= event_dt.hour < OFFHOURS_END_HOUR:
         write_alert(
